@@ -22,7 +22,10 @@ class ArticleViewModel(private val articleId: String) : BaseViewModel<ArticleSta
                 title = article.title,
                 category = article.category,
                 categoryIcon = article.categoryIcon,
-                date = article.date.format()
+                date = article.date.format(),
+                author = article.author,
+                poster = article.poster,
+                content = article.content
             )
         }
 
@@ -77,7 +80,11 @@ class ArticleViewModel(private val articleId: String) : BaseViewModel<ArticleSta
     }
 
     override fun handleBookmark() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val info = currentState.toArticlePersonalInfo()
+        repository.updateArticlePersonalInfo(info.copy(isBookmark = !info.isBookmark))
+
+        val msg = if (currentState.isBookmark) "Add to bookmarks" else "Remove from bookmarks"
+        notify(Notify.TextMessage(msg))
     }
 
     override fun handleLike() {
@@ -110,11 +117,13 @@ class ArticleViewModel(private val articleId: String) : BaseViewModel<ArticleSta
     }
 
     override fun handleSearchMode(isSearch: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val msg = "SearchMode is not implemented"
+        notify(Notify.ErrorMessage(msg, "OK", null))
     }
 
     override fun handleSearch(query: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val msg = "Search is not implemented"
+        notify(Notify.ErrorMessage(msg, "OK", null))
     }
 }
 
