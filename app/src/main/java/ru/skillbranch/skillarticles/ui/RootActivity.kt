@@ -1,10 +1,15 @@
 package ru.skillbranch.skillarticles.ui
 
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_root.*
@@ -17,7 +22,7 @@ import ru.skillbranch.skillarticles.viewmodels.ArticleViewModel
 import ru.skillbranch.skillarticles.viewmodels.Notify
 import ru.skillbranch.skillarticles.viewmodels.ViewModelFactory
 
-class RootActivity : AppCompatActivity() {
+class RootActivity : AppCompatActivity(), SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     private lateinit var viewModel: ArticleViewModel
 
@@ -66,6 +71,39 @@ class RootActivity : AppCompatActivity() {
             }
         }
         snackbar.show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.root_menu, menu)
+        val searchMenuItem = menu?.findItem(R.id.action_search)
+        val searchView = searchMenuItem?.actionView as SearchView
+        if (viewModel.currentState.isSearch) {
+            searchMenuItem.expandActionView()
+            searchView.setQuery(viewModel.currentState.searchQuery, true)
+        }
+        searchView.setOnQueryTextListener(this)
+        searchMenuItem.setOnActionExpandListener(this)
+        return true
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        viewModel.handleSearch(query)
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        viewModel.handleSearch(newText)
+        return true
+    }
+
+    override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+        viewModel.handleSearchMode(true)
+        return true
+    }
+
+    override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+        viewModel.handleSearchMode(false)
+        return true
     }
 
     private fun setupSubmenu() {

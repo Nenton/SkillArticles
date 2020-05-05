@@ -117,13 +117,11 @@ class ArticleViewModel(private val articleId: String) : BaseViewModel<ArticleSta
     }
 
     override fun handleSearchMode(isSearch: Boolean) {
-        val msg = "SearchMode is not implemented"
-        notify(Notify.ErrorMessage(msg, "OK", null))
+        updateState { it.copy(isSearch = isSearch) }
     }
 
     override fun handleSearch(query: String?) {
-        val msg = "Search is not implemented"
-        notify(Notify.ErrorMessage(msg, "OK", null))
+        updateState { it.copy(searchQuery = query) }
     }
 }
 
