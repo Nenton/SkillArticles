@@ -46,6 +46,7 @@
         android:theme="@style/ArticleBarsTheme"
         android:layout_gravity="bottom|end"
         android:elevation="8dp"
+        app:layout_behavior=".ui.custom.behaviors.SubmenuBehavior"
         app:layout_dodgeInsetEdges="bottom"
         android:layout_marginBottom="8dp"
         android:visibility="gone"
