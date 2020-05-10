@@ -1,7 +1,6 @@
 package ru.skillbranch.skillarticles.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -9,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_root.*
@@ -80,18 +78,18 @@ class RootActivity : AppCompatActivity(), SearchView.OnQueryTextListener, MenuIt
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.root_menu, menu)
+        menuInflater.inflate(R.menu.menu_search, menu)
         val searchMenuItem = menu?.findItem(R.id.action_search)
-        val searchView = searchMenuItem?.actionView as SearchView
-        searchView.queryHint = getString(R.string.search)
+        val searchView = (searchMenuItem?.actionView as? SearchView)
+        searchView?.queryHint = getString(R.string.search)
 
         if (isSearching) {
-            searchMenuItem.expandActionView()
-            searchView.setQuery(searchQuery, false)
-            searchView.clearFocus()
+            searchMenuItem?.expandActionView()
+            searchView?.setQuery(searchQuery, false)
+            searchView?.clearFocus()
         }
-        searchView.setOnQueryTextListener(this)
-        searchMenuItem.setOnActionExpandListener(this)
+        searchView?.setOnQueryTextListener(this)
+        searchMenuItem?.setOnActionExpandListener(this)
         return true
     }
 
