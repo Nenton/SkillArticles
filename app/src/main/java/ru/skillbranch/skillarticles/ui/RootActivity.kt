@@ -40,10 +40,7 @@ class RootActivity : BaseActivity<ArticleViewModel>(), IArticleView {
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     public override val binding: ArticleBinding by lazy { ArticleBinding() }
     override val layout = R.layout.activity_root
-    override val viewModel: ArticleViewModel by lazy {
-        val vmFactory = ViewModelFactory("0")
-        ViewModelProviders.of(this, vmFactory).get(ArticleViewModel::class.java)
-    }
+    override val viewModel: ArticleViewModel by provideViewModel("0")
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val bgColor by AttrValue(R.attr.colorSecondary)
